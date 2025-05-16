@@ -1,0 +1,534 @@
+{
+	"info": {
+		"_postman_id": "b2ccf674-3d52-41ee-b2cc-9d554f2fab50",
+		"name": "File Upload Service",
+		"description": "Collection for testing the Secure File Upload & Metadata Processing microservice",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28454623"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Host_URL}}/health",
+					"host": [
+						"{{Host_URL}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Health Check Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Host_URL}}/health",
+							"host": [
+								"{{Host_URL}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "15"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"f-VaSQ4oDUiZblZNAEkkN+sX+q3Sg\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 May 2025 10:19:10 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"ok\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Set token to environment variable\", function () {\r",
+							"    pm.environment.set(\"token\", pm.response.json().token);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}"
+				},
+				"url": {
+					"raw": "{{Host_URL}}/api/auth/login",
+					"host": [
+						"{{Host_URL}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{Host_URL}}/auth/login",
+							"host": [
+								"{{Host_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "155"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"9b-NkVF7+BzPgOo8u2kyPz1JkdG/2w\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 May 2025 10:19:20 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc0NzMwNDM2MCwiZXhwIjoxNzQ3MzA3OTYwfQ.hviNWrVc7R69Ab_JYIzfNdZLTiguuPMAhgoMn4FoLjs\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Upload File",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/ajinkyab/Downloads/payu-india2419.logowik.com.webp"
+						},
+						{
+							"key": "title",
+							"value": "Test File 2",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Test Description",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{Host_URL}}/api/files/upload",
+					"host": [
+						"{{Host_URL}}"
+					],
+					"path": [
+						"api",
+						"files",
+						"upload"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Upload File Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/ajinkyab/Downloads/success.gif"
+								},
+								{
+									"key": "title",
+									"value": "Test File 4",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Test Description",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Host_URL}}/files/upload",
+							"host": [
+								"{{Host_URL}}"
+							],
+							"path": [
+								"files",
+								"upload"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "33"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"21-bt1ze38Y0wjBpWjUx3aQpxjM/t8\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 May 2025 10:19:41 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"fileId\": 14,\n    \"status\": \"uploaded\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get File By Id (Uploaded by current User)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"pm.environment.set('filepath', response.storagePath);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{Host_URL}}/api/files/1",
+					"host": [
+						"{{Host_URL}}"
+					],
+					"path": [
+						"api",
+						"files",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get File By Id Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{Host_URL}}/files/13",
+							"host": [
+								"{{Host_URL}}"
+							],
+							"path": [
+								"files",
+								"13"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "262"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"106-DVI3Xupd0/1wHmoqjA0zCgWpkDY\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 May 2025 10:19:54 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 13,\n    \"userId\": 1,\n    \"originalName\": \"success.gif\",\n    \"storagePath\": \"uploads\\\\success-1747304199125-48401520.gif\",\n    \"title\": \"Test File 4\",\n    \"description\": \"Test Description\",\n    \"status\": \"processed\",\n    \"extractedData\": \"Size: 453435 bytes\",\n    \"uploadedAt\": \"2025-05-15T10:16:39.132Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get All Files (Uploaded by current User)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{Host_URL}}/api/files/all",
+					"host": [
+						"{{Host_URL}}"
+					],
+					"path": [
+						"api",
+						"files",
+						"all"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get All Files Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{Host_URL}}/files/all",
+							"host": [
+								"{{Host_URL}}"
+							],
+							"path": [
+								"files",
+								"all"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "3789"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"ecd-G2u/1+TwcNyypfEVcUHosdJIGcM\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 May 2025 10:20:06 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"userId\": 1,\n        \"originalName\": \"payu.png\",\n        \"storagePath\": \"uploads\\\\584627262e90dd77e9cc26eab0aef9b0\",\n        \"title\": \"Test File 1\",\n        \"description\": \"Test Description\",\n        \"status\": \"processed\",\n        \"extractedData\": \"Size: 38890 bytes\",\n        \"uploadedAt\": \"2025-05-15T07:58:36.283Z\"\n    },\n    {\n        \"id\": 2,\n        \"userId\": 1,\n        \"originalName\": \"payu.png\",\n        \"storagePath\": \"uploads\\\\9a6a5a8482090975c97b33c3bbec78c3\",\n        \"title\": \"Test File 1\",\n        \"description\": \"Test Description\",\n        \"status\": \"processed\",\n        \"extractedData\": \"Size: 38890 bytes\",\n        \"uploadedAt\": \"2025-05-15T08:01:11.646Z\"\n    },\n    {\n        \"id\": 3,\n        \"userId\": 1,\n        \"originalName\": \"payu.png\",\n        \"storagePath\": \"uploads\\\\902e091bd3f7c47f0b93a250f46ba6fc\",\n        \"title\": \"Test File 1\",\n        \"description\": \"Test Description\",\n        \"status\": \"processed\",\n        \"extractedData\": \"Size: 38890 bytes\",\n        \"uploadedAt\": \"2025-05-15T09:07:48.791Z\"\n    },\n    {\n        \"id\": 4,\n        \"userId\": 1,\n        \"originalName\": \"payu.png\",\n        \"storagePath\": \"uploads\\\\f3f32bc96924dce24451719758208bcc\",\n        \"title\": \"Test File 1\",\n        \"description\": \"Test Description\",\n        \"status\": \"processed\",\n        \"extractedData\": \"Size: 38890 bytes\",\n        \"uploadedAt\": \"2025-05-15T09:09:51.394Z\"\n    },\n    {\n        \"id\": 5,\n        \"userId\": 1,\n        \"originalName\": \"payu.png\",\n        \"storagePath\": \"uploads\\\\317e4a489bfb975853cab94b42fa704b\",\n        \"title\": \"Test File 4\",\n        \"description\": \"Test Description\",\n        \"status\": \"processed\",\n        \"extractedData\": \"Size: 38890 bytes\",\n        \"uploadedAt\": \"2025-05-15T09:19:27.674Z\"\n    },\n    {\n        \"id\": 6,\n        \"userId\": 1,\n        \"originalName\": \"payu.png\",\n        \"storagePath\": \"uploads\\\\7be5f443edf73f10b332362d5f97d6bf\",\n        \"title\": \"Test File 4\",\n        \"description\": \"Test Description\",\n        \"status\": \"processed\",\n        \"extractedData\": \"Size: 38890 bytes\",\n        \"uploadedAt\": \"2025-05-15T09:19:56.793Z\"\n    },\n    {\n        \"id\": 7,\n        \"userId\": 1,\n        \"originalName\": \"payu.png\",\n        \"storagePath\": \"uploads\\\\f079a849851a575b77f1ffe1b37d1b71\",\n        \"title\": \"Test File 4\",\n        \"description\": \"Test Description\",\n        \"status\": \"processed\",\n        \"extractedData\": \"Size: 38890 bytes\",\n        \"uploadedAt\": \"2025-05-15T09:22:15.123Z\"\n    },\n    {\n        \"id\": 8,\n        \"userId\": 1,\n        \"originalName\": \"payu.png\",\n        \"storagePath\": \"uploads\\\\25104e82e74bd1a6712e0f184303ffef\",\n        \"title\": \"Test File 4\",\n        \"description\": \"Test Description\",\n        \"status\": \"processed\",\n        \"extractedData\": \"Size: 38890 bytes\",\n        \"uploadedAt\": \"2025-05-15T09:22:31.182Z\"\n    },\n    {\n        \"id\": 9,\n        \"userId\": 1,\n        \"originalName\": \"payu.png\",\n        \"storagePath\": \"C:\\\\Users\\\\ajinkyab\\\\Desktop\\\\Projects\\\\UploadTest\\\\uploads\\\\payu-1747301730063-845724486.png\",\n        \"title\": \"Test File 4\",\n        \"description\": \"Test Description\",\n        \"status\": \"processed\",\n        \"extractedData\": \"Size: 38890 bytes\",\n        \"uploadedAt\": \"2025-05-15T09:35:30.067Z\"\n    },\n    {\n        \"id\": 10,\n        \"userId\": 1,\n        \"originalName\": \"payu.png\",\n        \"storagePath\": \"/uploads/payu-1747301854073-316641809.png\",\n        \"title\": \"Test File 4\",\n        \"description\": \"Test Description\",\n        \"status\": \"failed\",\n        \"extractedData\": \"ENOENT: no such file or directory, open 'C:\\\\uploads\\\\payu-1747301854073-316641809.png'\",\n        \"uploadedAt\": \"2025-05-15T09:37:34.079Z\"\n    },\n    {\n        \"id\": 11,\n        \"userId\": 1,\n        \"originalName\": \"payu.png\",\n        \"storagePath\": \"/uploads/payu-1747302095627-704701043.png\",\n        \"title\": \"Test File 4\",\n        \"description\": \"Test Description\",\n        \"status\": \"failed\",\n        \"extractedData\": \"ENOENT: no such file or directory, open 'C:\\\\uploads\\\\payu-1747302095627-704701043.png'\",\n        \"uploadedAt\": \"2025-05-15T09:41:35.644Z\"\n    },\n    {\n        \"id\": 12,\n        \"userId\": 1,\n        \"originalName\": \"payu.png\",\n        \"storagePath\": \"uploads\\\\payu-1747302131694-932368175.png\",\n        \"title\": \"Test File 4\",\n        \"description\": \"Test Description\",\n        \"status\": \"processed\",\n        \"extractedData\": \"Size: 38890 bytes\",\n        \"uploadedAt\": \"2025-05-15T09:42:11.701Z\"\n    },\n    {\n        \"id\": 13,\n        \"userId\": 1,\n        \"originalName\": \"success.gif\",\n        \"storagePath\": \"uploads\\\\success-1747304199125-48401520.gif\",\n        \"title\": \"Test File 4\",\n        \"description\": \"Test Description\",\n        \"status\": \"processed\",\n        \"extractedData\": \"Size: 453435 bytes\",\n        \"uploadedAt\": \"2025-05-15T10:16:39.132Z\"\n    },\n    {\n        \"id\": 14,\n        \"userId\": 1,\n        \"originalName\": \"success.gif\",\n        \"storagePath\": \"uploads\\\\success-1747304381283-789792244.gif\",\n        \"title\": \"Test File 4\",\n        \"description\": \"Test Description\",\n        \"status\": \"processed\",\n        \"extractedData\": \"Size: 453435 bytes\",\n        \"uploadedAt\": \"2025-05-15T10:19:41.289Z\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Image Preview (With Authentication)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{Host_URL}}{{filepath}}",
+					"host": [
+						"{{Host_URL}}{{filepath}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "email",
+			"value": "admin@test.com"
+		},
+		{
+			"key": "password",
+			"value": "admin123"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "title",
+			"value": "Sample Title"
+		},
+		{
+			"key": "description",
+			"value": "Sample Description"
+		},
+		{
+			"key": "fileId",
+			"value": ""
+		}
+	]
+}

@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    image: file-upload-app:latest
+    container_name: file-upload-app
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env 
+    command: ["sh", "-c", "npx prisma migrate deploy && node index.js"]            
+    volumes:
+      - .:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+      - ./uploads:/usr/src/app/uploads
+    depends_on:
+      - db
+      - redis
+    restart: always
+
+  worker:
+    image: file-upload-app:latest
+    container_name: file-upload-worker
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    command: ["npm", "run", "worker"]
+    volumes:
+      - .:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+      - ./uploads:/usr/src/app/uploads
+
+  db:
+    image: postgres:15-alpine
+    container_name: file-upload-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    container_name: file-upload-redis
+    ports:
+      - '6379:6379'
+    restart: always
+
+volumes:
+  db_data:
+    name: file_upload_db_data
+  node_modules:
+    name: file_upload_node_modules
