@@ -53,6 +53,22 @@ A file upload microservice built with Node.js, Express, Prisma, and BullMQ for b
 
 - `GET /uploads/test.png` -- For File preview with Authentication
 
+## Postman Collection
+
+### Setup
+
+A complete Postman collection and environment is availabe in postmancollection folder.
+
+- Import `File Upload Service.postman_collection.json` into Postman
+- Import `File Upload Service Env.postman_environment.json` into Postman
+- From the top-right Environment dropdown, choose `File Upload Service Env`.
+
+### Usage
+
+- Required login credentials are already added to the environement unless changed from .env file.
+- Once you run Login API, token is set to the environment variable automatically via script.
+- For `File preview API`, once file is fetched from `Get File By ID API`, the storagePath from response is automatically set to the filePath variable in env.
+
 ## Notes
 
 - Upload size limited to 5MB. Can be changed from ./src/utils/multer.js.
