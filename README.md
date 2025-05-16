@@ -1,8 +1,8 @@
-# Secure File Upload Service (Express.js)
+# File Upload Service
 
 ## Overview
 
-A secure file upload microservice built with Node.js, Express, Prisma (SQLite), and BullMQ for background processing.
+A file upload microservice built with Node.js, Express, Prisma, and BullMQ for background processing.
 
 ## Setup
 
@@ -57,4 +57,3 @@ A secure file upload microservice built with Node.js, Express, Prisma (SQLite), 
 
 - Upload size limited to 5MB. Can be changed from ./src/utils/multer.js.
 - Admin user seeded from `.env` variables `ADMIN_EMAIL` and `ADMIN_PASSWORD`.
-- SQLite database stored at `dev.db`.
